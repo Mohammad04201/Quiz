@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        .header{
+            padding:15px;
+    align-items: center;
+    background-color: rgb(26, 122, 66);
+    text-align: center;
+    border-radius: 30px;
+    height: 50px;
+    box-shadow: 20px 2px 20px  rgba(19, 20, 19, 0.637);
+    color: white;
+  text-shadow: 1px 2px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .quiz {
+            max-width: 500px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .option {
+    width: 48%;
+    margin: 1%;
+    padding: 10px;
+    border: none;
+    background-color: #027A20; /* Changed to hex code for consistency */
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer; /* Added cursor pointer for better UX */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Added transition for smooth hover effect */
+}
+
+.option:hover {
+    background-color: #0E802B; /* Changed to hex code for consistency */
+    transform: scale(1.05); /* Slightly enlarges the button */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow effect */
+}
+
+        #score {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        /* Media Queries for Mobile Devices */
+        @media (max-width: 600px) {
+            .quiz {
+                padding: 10px;
+            }
+            .option {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="header"> Mohammad AL Bzoor</h1>
+    <div class="container">
+        <div class="quiz">
+            <h2 class="question"> </h2>
+            <div class="options">
+                <button class="option"></button>
+                <button class="option"></button>
+                <button class="option"></button>
+                <button class="option"></button>
+            </div>
+           <div id="score"></div>       
+        </div>
+   </div>
+</body>
+</html>
+
+<script >
+    const quizData=[
+{
+    question:"The information to be communicated in a data communications system is the?",
+    options:["Medium ","Protocol","Message","Transmission"],
+    answre:2,
+},
+{
+    question:"There are----------- Internet service providers? ",
+    options:["local ","regional ","national and international","all of the above"],
+    answre:3,
+},
+{
+    question:"What is the default mask for class A in CIDR notation? ",
+    options:["/9 ","/8","16 ","none of the above"],
+    answre:1,
+},
+{
+    question:"What is the result of ANDing 254 and 152?",
+    options:["254","14","152","15"],
+    answre:2
+},
+
+{
+    question:"The---------- created a model called the Open Systeras Interconnection, which allows diverse systems to communicate.",
+    options:["OSI","ISO","IEEE","none of the above"],
+    answre:1
+},
+{
+    question:"The------------ layer links the network support layers and the user support layers.",
+    options:["transport","network","data link","sessione"],
+    answre:0
+},
+{
+    question:"Identity the class of the following IPv4 address: 229.1.2.3",
+    options:["A","B","D","none of the above"],
+    answre:3
+},
+{
+    question:"An IPv6 address can have up to---------------- hexadecimal digits",
+    options:["16","32","8","none of the above"],
+    answre:1
+},
+{
+    question:"IPv6 has-------------- bit addresses. ",
+    options:["64","32","128","variable"],
+    answre:2
+},
+{
+    question:"In the OSI model, encryption and decryption are functions of the -----------layer.",
+    options:["transport",". session","presentation"," application"],
+    answre:2
+},
+{
+    question:"The layer------------- adds a header to the packet comilg from the upper layer that includes the logical addresses of the sender and receiver.",
+    options:["physical"," data link","network","none of the above"],
+    answre:2
+},
+{
+    question:"An organization is granted a block of classless addresses with thestarting address 199.34.32.0/27. How many addresses are granted?",
+    options:["8","16","32","none of the above"],
+    answre:0
+},
+{
+    question:"An orgaaization is granted a block of classless addresses with the starting address 199.34.76.64/28. How many addresses are granted?",
+    options:["16","32","8","none of the above"],
+    answre:0
+},
+];
+const questionElement=document.querySelector(".question");
+const optionElement=document.querySelectorAll(".options .option");
+const scoreElement=document.querySelector("#score");
+
+let questionIndix=0;
+let score=0;
+
+
+function setQuestion(){
+    const crerentQuestion=quizData[questionIndix];
+    questionElement.innerHTML=crerentQuestion.question
+    optionElement.forEach((optionElement,index)=>{
+        optionElement.innerHTML=crerentQuestion.options[index]
+    });
+}
+setQuestion();
+function checkAnswer(optionIndex){
+    const crerentQuestion=quizData[questionIndix];
+    if(optionIndex===crerentQuestion.answre)
+    {
+        score++
+    }
+    questionIndix++
+    
+    if(questionIndix<quizData.length){
+        setQuestion()
+    }
+    else{
+        showResults()
+    }
+}
+function  showResults(){
+    questionElement.style.display="none"
+    optionElement.forEach((optionElement)=>{
+    optionElement.style.display="none"
+    });
+    scoreElement.innerHTML=`You scored ${score} out of ${quizData.length}`;
+    scoreElement.style.display="block"
+}
+optionElement.forEach((optionElement,index)=>{
+    optionElement.addEventListener("click",()=>{
+        checkAnswer(index)
+    })
+})
+setQuestion();
+</script>
